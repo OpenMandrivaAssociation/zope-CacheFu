@@ -1,28 +1,24 @@
-%define product		CacheFu
-%define version		1.0.2
-%define release		1
+%define Product CacheFu
+%define product cachefu
+%define name    zope-%{Product}
+%define version 1.1
+%define release %mkrel 1
 
-%define zope_minver	2.7
-%define plone_minver	2.0
-
-%define zope_home	%{_prefix}/lib/zope
+%define zope_minver     2.7
+%define zope_home       %{_prefix}/lib/zope
 %define software_home	%{zope_home}/lib/python
 
-Summary:	CacheFu speeds up Plone dramatically
-Name:		zope-%{product}
+Name:		%{name}
 Version:	%{version}
-Release:	%mkrel %{release}
+Release:	%{release}
+Summary:	CacheFu speeds up Plone dramatically
 License:	GPL
 Group:		System/Servers
-Source:		http://plone.org/products/cachefu/releases/%{version}/CacheFu-%{version}.tar.bz2
-URL:		http://plone.org/products/cachefu/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
-BuildArch:	noarch
+URL:        http://plone.org/products/%{product}
+Source:     http://plone.org/products/%{product}/releases/%{version}/%{Product}-%{version}.tgz
 Requires:	zope >= %{zope_minver}
-Requires:	plone >= %{plone_minver}
-
-Provides:	plone-Faq == %{version}
-Obsoletes:	zope-Faq
+BuildArch:	noarch
+BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 
 %description
@@ -33,7 +29,7 @@ behind apache (if you are using apache by itself, no special configuration
 is needed).
 
 %prep
-%setup -c
+%setup -q -n %{Product}-%{version}
 
 %build
 # Not much, eh? :-)
@@ -42,7 +38,8 @@ is needed).
 %install
 %{__rm} -rf %{buildroot}
 %{__mkdir_p} %{buildroot}/%{software_home}/Products
-%{__cp} -a %{product} %{buildroot}%{software_home}/Products/%{product}
+%{__cp} -a CMFSquidTool CacheSetup PageCacheManager PolicyHTTPCacheManager \
+    %{buildroot}%{software_home}/Products/
 
 
 %clean
@@ -59,7 +56,5 @@ if [ -f "%{_prefix}/bin/zopectl" ] && [ "`%{_prefix}/bin/zopectl status`" != "da
 fi
 
 %files
-%defattr(0644, root, root, 0755)
+%defattr(-,root,root)
 %{software_home}/Products/*
-
-
