@@ -18,7 +18,6 @@ URL:        http://plone.org/products/%{product}
 Source:     http://plone.org/products/%{product}/releases/%{version}/%{Product}-%{version}.tgz
 Requires:	zope >= %{zope_minver}
 BuildArch:	noarch
-BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 
 %description
